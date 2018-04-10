@@ -46,7 +46,7 @@ pipeline {
                 sh 'export'
                 sh 'AWS_REGION=us-east-1 /usr/local/bin/public_s3 -d bctmm-qa.com -h $ghprbSourceBranch -i trade.html'
                 s3Upload(
-                        bucket: '${env.ghprbSourceBranch}.bctmm-qa.com',
+                        bucket: "${env.ghprbSourceBranch}.bctmm-qa.com",
                         workingDir: 'trading-screen/alphapoint/v2retailTemplate/build',
                         includePathPattern: '**'
                 )
