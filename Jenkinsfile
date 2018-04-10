@@ -18,16 +18,13 @@ pipeline {
                     image 'node:8.11.1-alpine'
                 }
             }
-//            steps {
-//                dir('trading-screen/alphapoint') {
-//                    sh 'sh ./build.sh'
-//                }
-//                dir('trading-screen/alphapoint/v2retailTemplate') {
-//                    sh 'sh ./build.sh'
-//                }
-//            }
             steps {
-                sh 'pwd'
+                dir('trading-screen/alphapoint') {
+                    sh 'sh ./build.sh'
+                }
+                dir('trading-screen/alphapoint/v2retailTemplate') {
+                    sh 'sh ./build.sh'
+                }
             }
             post {
                 failure {
@@ -44,7 +41,7 @@ pipeline {
             }
             steps {
                 sh 'export'
-                sh 'AWS_REGION=us-east-1 /usr/local/bin/public_s3 -d bctmm-qa.com -h $ghprbSourceBranch -i trade.html'
+                sh 'AWS_REGION=us-east-1 /usr/local/bin/public_s3 -d bctmm-qa.com -h $(basename $ghprbSourceBranch) -i trade.html'
                 s3Upload(
                         bucket: "${env.ghprbSourceBranch}.bctmm-qa.com",
                         workingDir: 'trading-screen/alphapoint/v2retailTemplate/build',
