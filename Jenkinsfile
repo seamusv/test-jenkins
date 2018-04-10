@@ -43,7 +43,8 @@ pipeline {
                 }
             }
             steps {
-                sh '/usr/local/bin/public_s3 -d bctmm-qa.com -h ${env.ghprbSourceBranch} -i trade.html'
+                sh 'export'
+                sh '/usr/local/bin/public_s3 -d bctmm-qa.com -h $ghprbSourceBranch -i trade.html'
                 s3Upload(
                         bucket: '${env.ghprbSourceBranch}.bctmm-qa.com',
                         workingDir: 'trading-screen/alphapoint/v2retailTemplate/build',
