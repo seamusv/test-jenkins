@@ -40,10 +40,6 @@ pipeline {
                     args '-d bctmm-qa.com -h ${env.ghprbSourceBranch} -i trade.html'
                 }
             }
-        }
-
-        stage('Upload') {
-            agent any
             steps {
                 s3Upload(
                         bucket: '${env.ghprbSourceBranch}.bctmm-qa.com',
