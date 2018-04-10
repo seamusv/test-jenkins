@@ -18,13 +18,16 @@ pipeline {
                     image 'node:8.11.1-alpine'
                 }
             }
+//            steps {
+//                dir('trading-screen/alphapoint') {
+//                    sh 'sh ./build.sh'
+//                }
+//                dir('trading-screen/alphapoint/v2retailTemplate') {
+//                    sh 'sh ./build.sh'
+//                }
+//            }
             steps {
-                dir('trading-screen/alphapoint') {
-                    sh 'sh ./build.sh'
-                }
-                dir('trading-screen/alphapoint/v2retailTemplate') {
-                    sh 'sh ./build.sh'
-                }
+                sh 'pwd'
             }
             post {
                 failure {
@@ -36,11 +39,11 @@ pipeline {
         stage('Deploy') {
             agent {
                 docker {
-                    image 'seamusv/public_s3'
-                    args '-d bctmm-qa.com -h ${env.ghprbSourceBranch} -i trade.html'
+                    image 'seamusv/public_s3:latest'
                 }
             }
             steps {
+                sh '/usr/local/bin/public_s3 -d bctmm-qa.com -h ${env.ghprbSourceBranch} -i trade.html'
                 s3Upload(
                         bucket: '${env.ghprbSourceBranch}.bctmm-qa.com',
                         workingDir: 'trading-screen/alphapoint/v2retailTemplate/build',
