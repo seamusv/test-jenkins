@@ -7,7 +7,7 @@ pipeline {
                 sh 'pwd'
                 sh 'export'
                 dir('trading-screen') {
-                    sh 'rm -rf .'
+                    sh 'rm -rf *'
                     git branch: env.ghprbSourceBranch, credentialsId: env.ghprbCredentialsId, url: env.ghprbAuthorRepoGitUrl
                 }
             }
